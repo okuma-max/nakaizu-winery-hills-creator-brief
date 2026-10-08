@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>動画制作ガイド | 中伊豆ワイナリーヒルズ</title>
+<style>
+  :root {
+    --bg: #faf4f8;
+    --surface: #ffffff;
+    --line: #ecdce7;
+    --ink: #2b1c2a;
+    --ink-soft: #7c6478;
+    --accent: #a24c85;
+    --accent-deep: #3e1f3b;
+    --danger: #b3261e;
+    --danger-bg: #fbecea;
+    --radius: 18px;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', sans-serif;
+    line-height: 1.8;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 780px; margin: 0 auto; padding: 0 20px 64px; }
+
+  /* ---------- Header ---------- */
+  header.hero {
+    position: relative;
+    background: var(--accent-deep);
+    color: #f6ecf3;
+    padding: 36px 20px 104px;
+    overflow: hidden;
+  }
+  header.hero .eyebrow {
+    display: inline-block;
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    color: #e8c9de;
+    border: 1px solid rgba(255,255,255,0.28);
+    border-radius: 999px;
+    padding: 5px 14px;
+  }
+  header.hero h1 {
+    font-family: 'Hiragino Mincho ProN', 'Yu Mincho', serif;
+    font-size: 26px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    margin: 18px 0 8px;
+  }
+  header.hero p.sub {
+    font-size: 14.5px;
+    color: #e8c9de;
+    margin: 0 0 20px;
+    max-width: 46ch;
+  }
+  header.hero .note {
+    font-size: 13px;
+    color: #cba3c0;
+    border-top: 1px solid rgba(255,255,255,0.18);
+    padding-top: 14px;
+    max-width: 50ch;
+  }
+  .hero-art { position: absolute; width: 150px; height: 64px; right: -24px; bottom: -6px; opacity: 0.55; }
+
+  /* ---------- Shared section block ---------- */
+  section.block {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 24px 20px;
+    margin-top: -40px;
+    position: relative;
+    z-index: 2;
+  }
+  section.block + section.block { margin-top: 20px; }
+  section.block h2 {
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 0 0 20px;
+  }
+
+  /* ---------- Timeline (当日の集合) ---------- */
+  .timeline { list-style: none; margin: 0; padding: 0; }
+  .timeline li {
+    display: grid;
+    grid-template-columns: 52px 1fr;
+    gap: 16px;
+    padding-bottom: 18px;
+    position: relative;
+  }
+  .timeline li::before {
+    content: "";
+    position: absolute;
+    left: 25px; top: 22px; bottom: -4px;
+    width: 1px;
+    background: var(--line);
+  }
+  .timeline li:last-child::before { display: none; }
+  .timeline li:last-child { padding-bottom: 0; }
+  .timeline time {
+    font-weight: 700;
+    color: var(--accent);
+    font-size: 14px;
+    padding-top: 1px;
+  }
+  .timeline .label { font-size: 14px; }
+  .timeline .label strong { display: block; margin-bottom: 2px; }
+  .timeline .label span { color: var(--ink-soft); font-size: 13px; }
+  .alert {
+    margin-top: 18px;
+    background: var(--bg);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 14px 16px;
+    font-size: 13px;
+    color: var(--ink-soft);
+  }
+
+  /* ---------- Two column intro ---------- */
+  .intro-grid { display: grid; grid-template-columns: 1fr; gap: 22px; align-items: start; }
+  .intro-grid .concept { font-size: 15px; color: var(--ink); }
+  .facts { list-style: none; margin: 18px 0 0; padding: 0; font-size: 14px; }
+  .facts li {
+    display: flex; justify-content: space-between; gap: 12px;
+    padding: 9px 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .facts li:last-child { border-bottom: none; }
+  .facts .k { color: var(--ink-soft); flex: none; width: 34%; }
+  .facts a { color: var(--accent); text-decoration: none; border-bottom: 1px solid var(--accent); }
+
+  .point-grid { display: grid; grid-template-columns: 1fr; gap: 14px; margin-top: 22px; }
+  .point-card {
+    background: var(--bg);
+    border-radius: 14px;
+    padding: 16px 18px;
+    font-size: 14.5px;
+  }
+  .point-card .num {
+    font-size: 11px; font-weight: 700; color: var(--accent);
+    letter-spacing: 0.08em;
+  }
+
+  /* ---------- Shot list ---------- */
+  .shot-grid { display: grid; grid-template-columns: 1fr; gap: 18px; }
+  .shot-col h3 { font-size: 13px; margin: 0 0 10px; color: var(--ink-soft); font-weight: 600; }
+  .shot-col.must h3 { color: var(--accent); }
+  .pill-row { display: flex; flex-wrap: wrap; gap: 8px; }
+  .pill {
+    display: inline-block;
+    border-radius: 999px;
+    padding: 6px 14px;
+    font-size: 12.5px;
+    background: var(--bg);
+    color: var(--ink-soft);
+  }
+  .pill.must { background: var(--accent); color: #fff; font-weight: 600; }
+  .pill.tag { border: 1px solid var(--line); background: transparent; }
+  .pill.tag.required { background: var(--accent); color: #fff; border-color: var(--accent); font-weight: 600; }
+  .experience-list { list-style: none; margin: 18px 0 0; padding: 0; font-size: 14px; }
+  .experience-list li { display: flex; gap: 10px; margin-bottom: 10px; }
+  .experience-list li::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); margin-top: 8px; flex: none; }
+
+  /* ---------- Hooks ---------- */
+  .hook-list { list-style: none; margin: 0; padding: 0; counter-reset: hook; }
+  .hook-list li {
+    counter-increment: hook;
+    display: flex;
+    gap: 14px;
+    align-items: baseline;
+    padding: 13px 0;
+    border-bottom: 1px solid var(--line);
+    font-size: 14.5px;
+  }
+  .hook-list li:last-child { border-bottom: none; }
+  .hook-list li::before {
+    content: counter(hook, decimal-leading-zero);
+    font-family: 'SF Mono', Menlo, monospace;
+    font-size: 12px;
+    color: var(--accent);
+    flex: none;
+  }
+
+  /* ---------- Formats ---------- */
+  .format-grid { display: grid; grid-template-columns: 1fr; gap: 14px; }
+  .format-item {
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 16px 18px;
+  }
+  .format-item h3 { font-size: 14px; margin: 0 0 6px; color: var(--ink); }
+  .format-item p { font-size: 14px; color: var(--ink-soft); margin: 0; }
+
+  /* ---------- Caption ---------- */
+  .caption-box {
+    background: var(--bg);
+    border-radius: 14px;
+    padding: 20px 22px;
+    font-size: 14px;
+    white-space: pre-wrap;
+  }
+  .caption-note { font-size: 13px; color: var(--ink-soft); margin-top: 12px; }
+
+  /* ---------- NG ---------- */
+  .ng-group h3 { font-size: 13px; color: var(--danger); margin: 20px 0 10px; font-weight: 600; }
+  .ng-group:first-child h3 { margin-top: 0; }
+  .ng-items { list-style: none; margin: 0; padding: 0; }
+  .ng-items li {
+    display: flex; gap: 10px;
+    background: var(--danger-bg);
+    border-radius: 10px;
+    padding: 11px 14px;
+    margin-bottom: 8px;
+    font-size: 13.5px;
+  }
+  .ng-items li span.b {
+    flex: none; background: var(--danger); color: #fff;
+    font-size: 10.5px; font-weight: 700; border-radius: 6px; padding: 2px 6px;
+    height: fit-content;
+  }
+
+  footer.site-footer {
+    text-align: center;
+    padding: 36px 20px 10px;
+    color: var(--ink-soft);
+    font-size: 12px;
+  }
+
+  @media (min-width: 641px) {
+    .intro-grid { grid-template-columns: 1.1fr 0.9fr; }
+    .shot-grid, .point-grid, .format-grid { grid-template-columns: 1fr 1fr; }
+    section.block { padding: 30px 28px; margin-top: -64px; }
+    header.hero { padding: 46px 24px 120px; }
+    header.hero h1 { font-size: 34px; }
+    .timeline li { grid-template-columns: 64px 1fr; }
+    .hero-art { width: 260px; height: 110px; right: -10px; bottom: 0; opacity: 0.9; }
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <span class="eyebrow">CREATOR CONTENT GUIDE</span>
+  <h1>中伊豆ワイナリーヒルズ</h1>
+  <p class="sub">秋の収穫感謝祭 2026｜動画制作ガイド</p>
+  <p class="note">応募条件・報酬・募集期間・提出方法は lit.link Boost!（boost.lit.link）の案件ページをご確認ください。ここでは撮影当日の集合情報と、動画を作る際の参考情報のみをまとめています。</p>
+  <svg class="hero-art" viewBox="0 0 260 110" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <polyline points="0,90 40,55 70,75 110,30 150,70 190,45 230,80 260,60" stroke="#caa7c0" stroke-width="2" fill="none" opacity="0.55"/>
+    <g fill="#e2a6cf" opacity="0.7">
+      <circle cx="205" cy="92" r="5"/>
+      <circle cx="216" cy="98" r="5"/>
+      <circle cx="210" cy="103" r="5"/>
+      <circle cx="221" cy="90" r="5"/>
+      <circle cx="213" cy="85" r="5"/>
+    </g>
+  </svg>
+</header>
+
+<div class="wrap">
+
+  <section class="block">
+    <h2>撮影当日の集合について</h2>
+    <ul class="timeline">
+      <li><time>10:35</time><div class="label"><strong>修善寺駅 北口　集合・出発</strong><span>シャトルバスにて施設へ移動（所要約15分）</span></div></li>
+      <li><time>11:00</time><div class="label"><strong>施設到着</strong><span>撮影ルール・NG事項の共有</span></div></li>
+      <li><time>17:00</time><div class="label"><strong>修善寺駅へ送迎・解散</strong><span>日帰りでのご参加となります</span></div></li>
+    </ul>
+    <div class="alert">悪天候時の対応は調整中です。決まり次第あらためてご連絡します。</div>
+  </section>
+
+  <section class="block">
+    <h2>ブランド・施設について</h2>
+    <div class="intro-grid">
+      <div>
+        <p class="concept">伊豆の風土を体感するワイナリー。ワインだけでなく食事、宿泊、景色まで、伊豆の魅力をひとつの体験として届けたい。それが中伊豆ワイナリーヒルズのコンセプトです。</p>
+        <p style="font-size:14px;color:var(--ink-soft);margin-top:14px;">特にお伝えしたいこと：ワイン、畑、食、景色を感じたままに伝えてほしいです。</p>
+      </div>
+      <ul class="facts">
+        <li><span class="k">施設名</span><span>中伊豆ワイナリーヒルズ</span></li>
+        <li><span class="k">所在地</span><span>静岡県伊豆市下白岩1433-27</span></li>
+        <li><span class="k">公式サイト</span><a href="https://nakaizuwinery.com/" target="_blank" rel="noopener">nakaizuwinery.com</a></li>
+        <li><span class="k">Instagram</span><span>@nakaizu.wineryhills</span></li>
+        <li><span class="k">料金目安</span><span>入館無料／ツアー500円／試飲200円〜</span></li>
+      </ul>
+    </div>
+
+    <div class="point-grid">
+      <div class="point-card"><div class="num">01</div>約10haのぶどう畑越しに富士山を望むロケーション</div>
+      <div class="point-card"><div class="num">02</div>2000年開業「シャトーT.S」。日本ワインコンクール2025最高位グランドゴールド賞を受賞</div>
+      <div class="point-card"><div class="num">03</div>樽アート展示・ライブペインティングなど、ワインとアートが共存</div>
+      <div class="point-card"><div class="num">04</div>グランピング・レストラン・ガーデンウェディングまで備える</div>
+    </div>
+  </section>
+
+  <section class="block">
+    <h2>当日の体験内容と撮影カット</h2>
+    <ul class="experience-list">
+      <li>畑撮影（チェアリングなど）</li>
+      <li>館内・シャトー見学</li>
+      <li>レストラン「ナパ・バレー」でのランチ（全員同時刻でのご案内）</li>
+      <li>ガイドツアー＆試飲（20歳以上）</li>
+      <li>グランピング外観・夕景</li>
+    </ul>
+    <p style="font-size:12.5px;color:var(--ink-soft);margin:10px 0 22px;">※内容・順番は変わる場合があります</p>
+
+    <div class="shot-grid">
+      <div class="shot-col must">
+        <h3>撮影必須カット</h3>
+        <div class="pill-row">
+          <span class="pill must">富士山と畑</span>
+          <span class="pill must">樽アート</span>
+          <span class="pill must">体験・試飲の手元と表情</span>
+        </div>
+      </div>
+      <div class="shot-col">
+        <h3>撮影推奨カット</h3>
+        <div class="pill-row">
+          <span class="pill">グランピング</span>
+          <span class="pill">夕景</span>
+          <span class="pill">シャトー</span>
+          <span class="pill">レストラン</span>
+          <span class="pill">到着シーン</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block">
+    <h2>投稿フック例（最初の3秒・参考）</h2>
+    <ol class="hook-list">
+      <li>富士山を見ながらぶどう畑でのんびりできるなんて思わなかった</li>
+      <li>ワインに詳しくなくても、造り手さんの話を聞くと一気に好きになる</li>
+      <li>樽がアートになってて、ワイナリーのイメージが変わった</li>
+      <li>修善寺駅からシャトルで15分。思ったより近い</li>
+      <li>秋の収穫感謝祭は11月21日まで。この季節に来てほしい</li>
+    </ol>
+  </section>
+
+  <section class="block">
+    <h2>推奨動画フォーマット例（ご自身の世界観・スタイルでOK）</h2>
+    <div class="format-grid">
+      <div class="format-item"><h3>日帰り旅Vlog</h3><p>修善寺駅に着いてから解散まで、1日の流れを時系列で</p></div>
+      <div class="format-item"><h3>畑さんぽドキュメント</h3><p>ぶどう畑でチェアリングする様子と、富士山を背景にした畑の引き</p></div>
+      <div class="format-item"><h3>知るほど好きになるワインの裏側</h3><p>見学・試飲で知ったことを、知る前と知った後の気持ちの変化とあわせて</p></div>
+      <div class="format-item"><h3>アート×ワイナリー</h3><p>樽アートや展示をめぐり、ワイナリーの意外な一面を紹介</p></div>
+    </div>
+  </section>
+
+  <section class="block">
+    <h2>キャプション例（参考）</h2>
+    <div class="caption-box">富士山を見ながらぶどう畑でのんびりできるワイナリーが伊豆にあった🍇
+樽アートや醸造見学、試飲まで、知るほどに好きになる場所でした。
+修善寺駅からシャトルで約15分、秋の収穫感謝祭は11/21まで。
+
+#PR #中伊豆ワイナリーヒルズ #秋の収穫感謝祭 #伊豆旅行 #ワイナリー巡り</div>
+    <p class="caption-note">150〜300文字目安。「行ったきっかけ→体験→知って好きになったポイント→来訪情報」の流れで。20歳未満の飲酒は法律で禁止されています、の記載を推奨します。</p>
+  </section>
+
+  <section class="block">
+    <h2>ハッシュタグ・タグ付け</h2>
+    <div class="pill-row">
+      <span class="pill tag required">#PR</span>
+      <span class="pill tag required">#中伊豆ワイナリーヒルズ</span>
+      <span class="pill tag required">#秋の収穫感謝祭</span>
+      <span class="pill tag">#伊豆旅行</span>
+      <span class="pill tag">#伊豆観光</span>
+      <span class="pill tag">#静岡旅行</span>
+      <span class="pill tag">#修善寺</span>
+      <span class="pill tag">#ワイナリー</span>
+      <span class="pill tag">#日本ワイン</span>
+      <span class="pill tag">#富士山</span>
+      <span class="pill tag">#グランピング</span>
+      <span class="pill tag">#秋旅</span>
+    </div>
+    <ul class="experience-list" style="margin-top:18px;">
+      <li>位置情報「中伊豆ワイナリーヒルズ」を必ず設定してください</li>
+      <li>@nakaizu.wineryhills をキャプション内で必ずメンションしてください（動画内のタグ付けも推奨）</li>
+    </ul>
+  </section>
+
+  <section class="block">
+    <h2>NG表現</h2>
+    <div class="ng-group">
+      <h3>表現NG</h3>
+      <ul class="ng-items">
+        <li><span class="b">NG</span>他社ワイン・他社酒類の映り込み・言及・比較（持ち込みを含む）</li>
+        <li><span class="b">NG</span>20歳未満の飲酒、および20歳未満の飲酒を想起させる表現</li>
+        <li><span class="b">NG</span>飲酒運転や過度な飲酒を想起させる表現</li>
+        <li><span class="b">NG</span>ワインの健康・美容効果をうたう表現（例：「飲むと肌がきれいに」）</li>
+        <li><span class="b">NG</span>「日本一」「No.1」などエビデンスのない最上級表現</li>
+        <li><span class="b">NG</span>収穫体験など、今回の撮影内容に含まれないプログラムを体験したかのような表現</li>
+      </ul>
+    </div>
+    <div class="ng-group">
+      <h3>映像NG</h3>
+      <ul class="ng-items">
+        <li><span class="b">NG</span>他の来場者・スタッフなど、顔が判別できる無断撮影</li>
+        <li><span class="b">NG</span>立入禁止区域への立ち入り・撮影（スタッフの案内に従ってください）</li>
+      </ul>
+    </div>
+  </section>
+
+</div>
+
+<footer class="site-footer">
+  本ページの内容は参加クリエイター様限定の情報です。外部への転載・公開はお控えください。<br>
+  © 中伊豆ワイナリーヒルズ × TieUps lit.link Boost!
+</footer>
+
+</body>
+</html>
